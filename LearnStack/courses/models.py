@@ -1,59 +1,30 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from mptt.models import MPTTModel, TreeForeignKey
-# from django.core.validators import URLValidator
 
 from .mixins import UniqueSlugMixin
 
 
-# ========== 1. Пользователь ==========
-class User(UniqueSlugMixin, AbstractUser):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    is_instructor = models.BooleanField(default=False)
-    bio = models.TextField(blank=True)
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
-    avatar = models.ImageField(
-        upload_to='avatars/%d/%m/%Y/',
-        blank=True,
-        null=True,)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    slug_from_field = 'get_full_name'
-
-    def get_full_name(self):
-        name = f"{self.first_name} {self.last_name}".strip()
-        return name if name else self.username
-
-    @property
-    def full_name(self):
-        return self.get_full_name()
-
-    def __str__(self):
-        return self.get_full_name() or self.username
-
-
-# ========== 2. Категории ==========
+# ========== Категории ==========
 class Category(UniqueSlugMixin, MPTTModel):
     name = models.CharField(max_length=120)
     slug = models.SlugField(unique=True, blank=True)
     parent = TreeForeignKey(
-        'self',
+        "self",
         null=True,
         blank=True,
-        related_name='subcategories',
-        on_delete=models.SET_NULL,)
+        related_name="subcategories",
+        on_delete=models.SET_NULL,
+    )
 
-    slug_from_field = 'name'
+    slug_from_field = "name"
 
     class Meta:
-        verbose_name_plural = 'Categories'
-        indexes = [models.Index(fields=['slug'])]
-        ordering = ['tree_id', 'lft']
+        verbose_name_plural = "Categories"
+        indexes = [models.Index(fields=["slug"])]
+        ordering = ["tree_id", "lft"]
 
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ["name"]
 
     def __str__(self):
         return self.name
@@ -292,20 +263,6 @@ class Category(UniqueSlugMixin, MPTTModel):
 
 #     class Meta:
 #         unique_together = ('user', 'course')
-
-
-# # ========== 12. Профиль преподавателя ==========
-# class InstructorProfile(models.Model):
-#     user = models.OneToOneField(
-#         User,
-#         on_delete=models.CASCADE,
-#         related_name='instructor_profile')
-#     experience = models.TextField(blank=True)
-#     social_links = models.JSONField(default=dict, blank=True)
-#     certifications = models.TextField(blank=True)
-
-#     def __str__(self):
-#         return f"Профиль: {self.user.full_name}"
 
 
 # # ========== 13. Прогресс урока ==========
