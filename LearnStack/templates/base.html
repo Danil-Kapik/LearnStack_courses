@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Онлайн Курсы{% endblock %}</title>
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <!-- Навигация -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="/" class="text-xl font-bold text-blue-600">Онлайн Курсы</a>
+            <nav class="space-x-4">
+                {% comment %} <a href="{% url 'user_list' %}" class="hover:text-blue-600">Преподаватели</a>
+                <a href="{% url 'category_list' %}" class="hover:text-blue-600">Категории</a> {% endcomment %}
+            </nav>
+        </div>
+    </header>
+
+    <!-- Контент -->
+    <main class="container mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Футер -->
+    <footer class="bg-white shadow mt-8">
+        <div class="container mx-auto px-4 py-6 text-center text-gray-500 text-sm">
+            &copy; {{ now|date:"Y" }} Онлайн Курсы. Все права защищены.
+        </div>
+    </footer>
+</body>
+</html>
