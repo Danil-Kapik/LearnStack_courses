@@ -1,0 +1,187 @@
+{% comment %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Онлайн-курсы{% endblock %}</title>
+    <!-- Подключение Tailwind -->
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="bg-blue-500 text-white p-4">Проверка Tailwind</div>
+    <!-- Верхнее меню -->
+    <header class="bg-white shadow-sm">
+        
+    </header>
+
+    <!-- Контент -->
+    <main class="container mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Футер -->
+    <footer>
+
+    </footer>
+    <div class="bg-blue-500 text-white p-4">Проверка Tailwind</div>
+</body>
+</html> {% endcomment %}
+
+
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Онлайн-курсы{% endblock %}</title>
+  <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
+  <header class="border-b bg-white">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-semibold">
+        <span class="inline-block h-8 w-8 rounded-lg bg-indigo-600"></span>
+        <span>EduPeak</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="#" class="hover:text-indigo-600">Каталог</a>
+        <a href="#" class="hover:text-indigo-600">О нас</a>
+        <a href="#" class="hover:text-indigo-600">Блог</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-sm hover:text-indigo-600">Войти</a>
+        <a href="#" class="text-sm rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">Регистрация</a>
+
+        <button class="md:hidden p-2 rounded-lg hover:bg-gray-100" aria-label="Открыть меню">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mt-24 border-t bg-white">
+    <div class="container mx-auto px-4 py-8 text-sm text-gray-500">
+      © {% now "Y" %} EduPeak. Все права защищены.
+      <div class="bg-blue-500 text-white p-4">Проверка Tailwind</div>
+    </div>
+  </footer>
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Stepik{% endblock %}</title>
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-gray-300 font-sans antialiased">
+    <header class="bg-gray-800 text-white p-4 shadow-lg">
+        <nav class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <img src="{% static 'images/menu_logo_for_durk.svg' %}" alt="Stepik Logo" class="h-8 w-auto">
+                </a>
+                <div class="ml-8 flex items-center space-x-6">
+                    <a href="#" class="text-white hover:text-gray-400 font-medium">Категории</a>
+                    <a href="#" class="text-white hover:text-gray-400 font-medium">Преподаватели</a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Поиск..." class="bg-gray-700 text-white placeholder-gray-400 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 w-64">
+                    <svg class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M3 9h9m-9 4h6m-3 4h3m-6 0h3m-3 0V9m3 0V5m-3 4l-3-3m3 3l3-3m-3 3v6m3-3h-3m3 3h-3"></path>
+                    </svg>
+                    <span class="text-white">Русский</span>
+                </div>
+                <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg border border-gray-600">Войти</a>
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Регистрация</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 mt-auto py-8">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-4">
+                <p>&copy; 2013—2025. Courses</p>
+                <div class="text-sm space-y-1">
+                    <a href="#" class="hover:underline">Пользовательское соглашение</a>
+                    <a href="#" class="block hover:underline">Политика конфиденциальности</a>
+                </div>
+                <a href="#" class="flex items-center space-x-2 text-white hover:text-gray-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M3 9h9m-9 4h6m-3 4h3m-6 0h3m-3 0V9m3 0V5m-3 4l-3-3m3 3l3-3m-3 3v6m3-3h-3m3 3h-3"></path>
+                    </svg>
+                    <span>Switch to English</span>
+                </a>
+            </div>
+
+            <div class="space-y-2">
+                <a href="#" class="block hover:underline">Авторам курсов</a>
+                <a href="#" class="block hover:underline">Компаниям</a>
+                <a href="#" class="block hover:underline">Помощь</a>
+                <a href="#" class="block hover:underline">Контакты</a>
+            </div>
+
+            <div class="space-y-2">
+                <a href="#" class="block hover:underline">Партнёрство</a>
+                <a href="#" class="block hover:underline">О проекте</a>
+                <a href="#" class="block hover:underline">Команда</a>
+                <a href="#" class="block hover:underline">Вакансии</a>
+            </div>
+
+            <div class="space-y-4">
+                <p class="text-lg">1 533 742 466 решений</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center hover:bg-gray-700">ВК</a>
+                    <a href="#" class="w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center hover:bg-gray-700">ТГ</a>
+                    <a href="#" class="w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center hover:bg-gray-700">ДЗ</a>
+                </div>
+                <a href="mailto:help@stepik.org" class="block hover:underline">help@stepik.org</a>
+                <div class="flex space-x-2">
+                    <a href="#">
+                        <img src="{% static 'images/app_store.png' %}" alt="App Store" class="h-9">
+                    </a>
+                    <a href="#">
+                        <img src="{% static 'images/google_play.png' %}" alt="Google Play" class="h-9">
+                    </a>
+                    <a href="#">
+                        <img src="{% static 'images/rustore.png' %}" alt="RuStore" class="h-9">
+                    </a>
+                </div>
+                <p class="text-sm">Public user contributions licensed under <a href="#" class="underline">CC BY-SA 4.0</a> license with attribution required</p>
+                <div class="flex items-center space-x-2">
+                    <img src="{% static 'images/stepik_uchastnik.png' %}" alt="Courses Участник" class="h-8">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

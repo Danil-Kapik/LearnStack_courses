@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "mptt",
     "tailwind",
-    "theme",  # имя папки с темой
+    "theme",
     "django_browser_reload",
     "courses",
     "accounts",
@@ -137,7 +137,10 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "apps" / "theme" / "static",
+]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
@@ -158,3 +161,6 @@ TAILWIND_APP_NAME = "theme"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+LOGIN_REDIRECT_URL = "courses:home"
+LOGIN_URL = "login"
