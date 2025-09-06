@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Регистрация</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <p><strong>Выберите роль:</strong></p>
+  {{ form.role }}
+
+  {{ form.username.label_tag }} {{ form.username }}
+  {{ form.email.label_tag }} {{ form.email }}
+  {{ form.first_name.label_tag }} {{ form.first_name }}
+  {{ form.last_name.label_tag }} {{ form.last_name }}
+  {{ form.password1.label_tag }} {{ form.password1 }}
+  {{ form.password2.label_tag }} {{ form.password2 }}
+  {{ form.avatar.label_tag }} {{ form.avatar }}
+
+  <div id="instructor-fields" style="display:none;">
+      <h3>Данные преподавателя</h3>
+      {{ form.experience.label_tag }} {{ form.experience }}
+      {{ form.certifications.label_tag }} {{ form.certifications }}
+  </div>
+
+  <button type="submit">Зарегистрироваться</button>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const roleRadios = document.querySelectorAll('input[name="role"]');
+    const instructorFields = document.getElementById("instructor-fields");
+
+    function toggleFields() {
+        const selected = document.querySelector('input[name="role"]:checked').value;
+        if (selected === "instructor") {
+            instructorFields.style.display = "block";
+        } else {
+            instructorFields.style.display = "none";
+        }
+    }
+
+    roleRadios.forEach(radio => radio.addEventListener("change", toggleFields));
+    toggleFields();  // показать при загрузке
+});
+</script>
+{% endblock %}

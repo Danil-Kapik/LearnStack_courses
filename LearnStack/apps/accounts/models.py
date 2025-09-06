@@ -6,7 +6,9 @@ from courses.mixins import UniqueSlugMixin
 
 # ========== 1. Пользователь ==========
 class User(UniqueSlugMixin, AbstractUser):
-    first_name = models.CharField(max_length=255)
+    first_name = models.CharField(
+        max_length=255,
+    )
     last_name = models.CharField(max_length=255)
     is_instructor = models.BooleanField(default=False)
     bio = models.TextField(blank=True)
