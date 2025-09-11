@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-from courses.mixins import UniqueSlugMixin
+from apps.courses.mixins import UniqueSlugMixin
 
 
 # ========== 1. Пользователь ==========
