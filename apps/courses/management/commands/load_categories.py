@@ -1,69 +1,91 @@
 from django.core.management.base import BaseCommand
-from courses.models import Category
+from apps.courses.models import Category
+
+
+CATEGORIES = {
+    "Программирование": {
+        "Python": [
+            "Основы Python",
+            "Веб-разработка (Django/FastAPI)",
+            "Data Science (Pandas/NumPy)",
+            "Автоматизация и скрипты",
+        ],
+        "☕ Java": [
+            "Java Core",
+            "Spring Framework",
+            "Android Development",
+        ],
+        "JavaScript": [
+            "React",
+            "Node.js",
+            "Vue.js",
+            "Angular",
+        ],
+        "Rust": [
+            "Основы Rust",
+            "Системное программирование",
+            "WebAssembly",
+        ],
+    },
+    "Data Science & AI": {
+        "Машинное обучение": [
+            "Нейронные сети",
+            "Computer Vision",
+            "NLP",
+        ],
+        "Анализ данных": [
+            "SQL и базы данных",
+            "Tableau/Power BI",
+            "Excel для аналитиков",
+        ],
+        "Big Data": [
+            "Hadoop/Spark",
+            "Data Engineering",
+            "Cloud Data Solutions",
+        ],
+    },
+    "DevOps & Администрирование": {
+        "Linux/Unix": [],
+        "Docker & Kubernetes": [],
+        "Git и системы контроля версий": [],
+        "CI/CD": [],
+        "Cloud Platforms": [
+            "AWS",
+            "Azure",
+            "Google Cloud",
+        ],
+    },
+    "Frontend & Дизайн": {
+        "UI/UX Design": [],
+        "Responsive Web Design": [],
+        "Progressive Web Apps": [],
+        "Animation & Graphics": [],
+    },
+}
 
 
 class Command(BaseCommand):
-    help = 'Loads initial categories into the database'
+    help = "Загружает категории в базу данных"
 
     def handle(self, *args, **options):
-        categories_data = [
-            {
-                'name': 'Программирование',
-                'subcategories': [
-                    {'name': 'Веб-разработка (Frontend/Backend)'},
-                    {'name': 'Мобильная разработка'},
-                    {'name': 'Data Science & AI'},
-                    {'name': 'Алгоритмы и структуры данных'},
-                    {'name': 'Базы данных'},
-                ]
-            },
-            {
-                'name': 'Дизайн',
-                'subcategories': [
-                    {'name': 'Веб-дизайн'},
-                    {'name': 'Графический дизайн'},
-                    {'name': 'UX/UI'},
-                    {'name': '3D-моделирование'},
-                    {'name': 'Моушн-дизайн'},
-                ]
-            },
-            {
-                'name': 'Бизнес и маркетинг',
-                'subcategories': [
-                    {'name': 'Цифровой маркетинг'},
-                    {'name': 'Управление проектами'},
-                    {'name': 'Финансы и аналитика'},
-                    {'name': 'Стартапы'},
-                    {'name': 'Продажи'},
-                ]
-            }
-        ]
+        self.stdout.write(self.style.SUCCESS("Загрузка категорий..."))
 
-        for category_data in categories_data:
+        def create_category(name, parent=None):
             category, created = Category.objects.get_or_create(
-                name=category_data['name']
+                name=name,
+                parent=parent,
             )
-
             if created:
-                self.stdout.write(self.style.SUCCESS(f'Created category:\
-                     {category.name} (slug: {category.slug})'))
-            else:
-                self.stdout.write(self.style.WARNING(f'Category exists:\
-                     {category.name}'))
+                self.stdout.write(f"✔ Создана категория: {name}")
+            return category
 
-            for subcategory_data in category_data['subcategories']:
-                subcategory, created = Category.objects.get_or_create(
-                    name=subcategory_data['name'],
-                    parent=category
-                )
+        for root_name, subcats in CATEGORIES.items():
+            root = create_category(root_name)
+            for sub_name, leafs in subcats.items():
+                sub = create_category(sub_name, parent=root)
+                for leaf in leafs:
+                    create_category(leaf, parent=sub)
 
-                if created:
-                    self.stdout.write(self.style.SUCCESS(f'\
-                  └─ Created subcategory: {subcategory.name} (slug:\
-                      {subcategory.slug})'))
-                else:
-                    self.stdout.write(self.style.WARNING(f'\
-                  └─ Subcategory already exists: {subcategory.name}'))
-
-        self.stdout.write(self.style.SUCCESS('Successfully\
-                                              loaded all categories!'))
+        self.stdout.write(
+            self.style.SUCCESS("Все категории успешно загружены.")
+        )

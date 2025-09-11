@@ -1,12 +1,14 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
+from apps.accounts.models import User
+
 from .mixins import UniqueSlugMixin
 
 
 # ========== Категории ==========
 class Category(UniqueSlugMixin, MPTTModel):
-    name = models.CharField(max_length=120)
+    name = models.CharField(max_length=120, unique=True)
     slug = models.SlugField(unique=True, blank=True)
     parent = TreeForeignKey(
         "self",
@@ -20,7 +22,6 @@ class Category(UniqueSlugMixin, MPTTModel):
 
     class Meta:
         verbose_name_plural = "Categories"
-        indexes = [models.Index(fields=["slug"])]
         ordering = ["tree_id", "lft"]
 
     class MPTTMeta:
@@ -30,105 +31,87 @@ class Category(UniqueSlugMixin, MPTTModel):
         return self.name
 
 
-# # ========== 3. Теги ==========
-# class Tag(UniqueSlugMixin, models.Model):
-#     name = models.CharField(max_length=50)
-#     slug = models.SlugField(unique=True, blank=True)
+# ========== Теги ==========
+class Tag(UniqueSlugMixin, models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
 
-#     slug_from_field = 'name'
+    slug_from_field = "name"
 
-#     class Meta:
-#         indexes = [models.Index(fields=['slug'])]
-#         verbose_name_plural = 'Tags'
+    class Meta:
+        verbose_name_plural = "Tags"
 
-#     def __str__(self):
-#         return self.name
-
-
-# # ========== 4. Курсы ==========
-# class Course(UniqueSlugMixin, models.Model):
-#     class Level_choices(models.TextChoices):
-#         BEGINNER = 'beginner', 'Начальный'
-#         INTERMEDIATE = 'intermediate', 'Средний'
-#         ADVANCED = 'advanced', 'Продвинутый'
-
-#     title = models.CharField(max_length=255)
-#     slug = models.SlugField(unique=True, blank=True)
-#     description = models.TextField()
-#     image = models.ImageField(upload_to='courses/images/')
-#     category = models.ForeignKey(
-#         Category,
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         related_name='courses')
-#     instructor = models.ForeignKey(
-#         User,
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         limit_choices_to={'is_instructor': True})
-#     level = models.CharField(max_length=20, choices=Level_choices.choices)
-#     price = models.DecimalField(max_digits=10, decimal_places=2)
-#     duration = models.PositiveIntegerField(help_text='в минутах')
-#     is_published = models.BooleanField(default=False)
-#     release_date = models.DateField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     tags = models.ManyToManyField(Tag, blank=True)
-
-#     slug_from_field = 'title'
-
-#     class Meta:
-#         indexes = [
-#             models.Index(fields=['slug']),
-#             models.Index(fields=['release_date']),
-#             models.Index(fields=['level']),
-#         ]
-
-#     @property
-#     def rating(self):
-#         result = self.reviews.aggregate(avg_rating=models.Avg('rating'))
-#         return round(result['avg_rating'] or 0.0, 2)
-
-#     @property
-#     def students_count(self):
-#         return self.enrollments.count()
-
-#     def __str__(self):
-#         return self.title
+    def __str__(self):
+        return self.name
 
 
-# # ========== 5. Уроки ==========
-# class Lesson(models.Model):
-#     course = models.ForeignKey(
-#         Course,
-#         on_delete=models.CASCADE,
-#         related_name='lessons')
-#     title = models.CharField(max_length=255)
-#     video_url = models.URLField(
-#         blank=True,
-#         validators=[URLValidator()],
-#         help_text="Ссылка на видеоурок")
-#     content = models.TextField(blank=True)
-#     duration = models.PositiveIntegerField(help_text='в минутах')
-#     order = models.PositiveIntegerField(blank=True, null=True)
-#     is_preview = models.BooleanField(default=False)
+# ========== Курсы ==========
+class Course(UniqueSlugMixin, models.Model):
+    title = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
+    description = models.TextField()
+    image = models.ImageField(upload_to="courses/images/", blank=True)
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, related_name="courses"
+    )
+    instructor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        limit_choices_to={"is_instructor": True},
+    )
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    duration = models.PositiveIntegerField(help_text="в минутах")
+    is_published = models.BooleanField(default=False)
+    release_date = models.DateField(db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField(Tag, blank=True)
 
-#     class Meta:
-#         ordering = ['order']
-#         unique_together = ('course', 'order')
+    slug_from_field = "title"
 
-#     def save(self, *args, **kwargs):
-#         if self.order is None:
-#             last_order = (
-#                 Lesson.objects
-#                 .filter(course=self.course)
-#                 .aggregate(max_order=models.Max('order'))['max_order'] or 0
-#             )
-#             self.order = last_order + 1
-#         super().save(*args, **kwargs)
+    @property
+    def rating(self):
+        result = self.reviews.aggregate(avg_rating=models.Avg("rating"))
+        return round(result["avg_rating"] or 0.0, 2)
 
-#     def __str__(self):
-#         return f"{self.course.title} - {self.title}"
+    @property
+    def students_count(self):
+        return self.enrollments.count()
+
+    def __str__(self):
+        return self.title
+
+
+# ========== Уроки ==========
+class Lesson(models.Model):
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name="lessons"
+    )
+    title = models.CharField(max_length=255)
+    video_url = models.URLField(blank=True, help_text="Ссылка на видеоурок")
+    content = models.TextField(blank=True)
+    duration = models.PositiveIntegerField(help_text="в минутах")
+    order = models.PositiveIntegerField(blank=True, null=True)
+    is_preview = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["order"]
+        unique_together = ("course", "order")
+
+    def save(self, *args, **kwargs):
+        if self.order is None:
+            last_order = (
+                Lesson.objects.filter(course=self.course).aggregate(
+                    max_order=models.Max("order")
+                )["max_order"]
+                or 0
+            )
+            self.order = last_order + 1
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.course.title} - {self.title}"
 
 
 # # ========== 6. Отзывы ==========
