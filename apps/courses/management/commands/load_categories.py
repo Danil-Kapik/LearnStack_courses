@@ -10,7 +10,7 @@ CATEGORIES = {
             "Data Science (Pandas/NumPy)",
             "Автоматизация и скрипты",
         ],
-        "☕ Java": [
+        "Java": [
             "Java Core",
             "Spring Framework",
             "Android Development",
