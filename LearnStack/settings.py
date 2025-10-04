@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "django_browser_reload",
     # Локальные приложения
     "apps.courses",
-    "apps.accounts",
     "apps.theme",
 ]
 
@@ -153,7 +152,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "accounts.User"
+# AUTH_USER_MODEL = "accounts.User"
 
 TAILWIND_APP_NAME = "apps.theme"
 
