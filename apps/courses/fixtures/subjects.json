@@ -1,0 +1,171 @@
+[
+{
+  "model": "courses.subject",
+  "pk": 33,
+  "fields": {
+    "title": "Программирование",
+    "slug": "programmirovanie",
+    "parent": null,
+    "lft": 1,
+    "rght": 10,
+    "tree_id": 5,
+    "level": 0
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 34,
+  "fields": {
+    "title": "Python",
+    "slug": "python",
+    "parent": 33,
+    "lft": 6,
+    "rght": 7,
+    "tree_id": 5,
+    "level": 1
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 35,
+  "fields": {
+    "title": "Java",
+    "slug": "java",
+    "parent": 33,
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 5,
+    "level": 1
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 36,
+  "fields": {
+    "title": "JavaScript",
+    "slug": "javascript",
+    "parent": 33,
+    "lft": 4,
+    "rght": 5,
+    "tree_id": 5,
+    "level": 1
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 37,
+  "fields": {
+    "title": "Rust",
+    "slug": "rust",
+    "parent": 33,
+    "lft": 8,
+    "rght": 9,
+    "tree_id": 5,
+    "level": 1
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 38,
+  "fields": {
+    "title": "Data Science & AI",
+    "slug": "data-science-ai",
+    "parent": null,
+    "lft": 1,
+    "rght": 8,
+    "tree_id": 1,
+    "level": 0
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 39,
+  "fields": {
+    "title": "Машинное обучение",
+    "slug": "mashinnoe-obuchenie",
+    "parent": 38,
+    "lft": 6,
+    "rght": 7,
+    "tree_id": 1,
+    "level": 1
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 40,
+  "fields": {
+    "title": "Анализ данных",
+    "slug": "analiz-dannyh",
+    "parent": 38,
+    "lft": 4,
+    "rght": 5,
+    "tree_id": 1,
+    "level": 1
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 41,
+  "fields": {
+    "title": "Big Data",
+    "slug": "big-data",
+    "parent": 38,
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 1,
+    "level": 1
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 42,
+  "fields": {
+    "title": "DevOps & Администрирование",
+    "slug": "devops-administrirovanie",
+    "parent": null,
+    "lft": 1,
+    "rght": 4,
+    "tree_id": 2,
+    "level": 0
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 46,
+  "fields": {
+    "title": "Cloud Platforms",
+    "slug": "cloud-platforms",
+    "parent": 42,
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 2,
+    "level": 1
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 47,
+  "fields": {
+    "title": "Frontend & Дизайн",
+    "slug": "frontend-dizajn",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 3,
+    "level": 0
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 48,
+  "fields": {
+    "title": "Кибербезопасность",
+    "slug": "kiberbezopasnost",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 4,
+    "level": 0
+  }
+}
+]

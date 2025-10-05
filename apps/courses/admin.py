@@ -1,11 +1,13 @@
 from django.contrib import admin
+from mptt.admin import MPTTModelAdmin
 from .models import Subject, Course, Module
 
 
 @admin.register(Subject)
-class SubjectAdmin(admin.ModelAdmin):
+class SubjectAdmin(MPTTModelAdmin):
     list_display = ["title", "slug"]
     prepopulated_fields = {"slug": ("title",)}
+    mptt_level_indent = 40
 
 
 class ModuleInline(admin.StackedInline):
