@@ -9,8 +9,14 @@
       <div class="course-info">
         <h3>{{ course.title }}</h3>
         <p>
-          <a href="{% url "courses:update" course.id %}">Редактировать</a>
-          <a href="{% url "courses:delete" course.id %}">Удалить</a>
+          <a href="{% url "courses:update" course.id %}">Редактировать курс</a>
+          <a href="{% url "courses:delete" course.id %}">Удалить курс</a>
+          <a href="{% url "courses:module_update" course.id %}">Редактировать модули</a>
+          {% if course.modules.count > 0 %}
+            <a href="{% url "courses:content_list" course.modules.first.id %}">
+              Управлять контентом
+            </a>
+          {% endif %}
         </p>
       </div>
     {% empty %}

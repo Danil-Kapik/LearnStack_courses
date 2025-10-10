@@ -160,5 +160,5 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-LOGIN_REDIRECT_URL = "courses:home"
+LOGIN_REDIRECT_URL = "courses:list"
 LOGIN_URL = "login"
