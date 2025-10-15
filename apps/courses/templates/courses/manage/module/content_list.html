@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load course %}
 
 {% block title %}
@@ -25,9 +26,13 @@
         <li>Модулей нет.</li>
       {% endfor %}
     </ul>
-    <p><a href="{% url "courses:module_update" course.id %}">
-    Редактировать модули</a></p>
+    <p>
+      <a href="{% url "courses:module_update" course.id %}">
+        Редактировать модули
+      </a>
+    </p>
   </div>
+
   <div class="module">
     <h2>Модуль {{ module.order|add:1 }}: {{ module.title }}</h2>
     <h3>Содержимое модуля:</h3>
@@ -40,86 +45,62 @@
               Редактировать
             </a>
             <form action="{% url "courses:content_delete" content.id %}" method="post">
-              <input type="submit" value="Delete">
+              <input type="submit" value="Удалить">
               {% csrf_token %}
             </form>
-            {% endwith %}
+          {% endwith %}
         </div>
       {% empty %}
         <p>Модуль не имеет содержимого.</p>
       {% endfor %}
     </div>
+
     <h3>Добавить содержимое:</h3>
     <ul class="content-types">
-      <li>
-        <a href="{% url "courses:content_create" module.id "text" %}">Текст</a>
-      </li>
-      <li>
-        <a href="{% url "courses:content_create" module.id "image" %}">Изображение</a>
-      </li>
-      <li>
-        <a href="{% url "courses:content_create" module.id "video" %}">Видео</a>
-      </li>
-      <li>
-        <a href="{% url "courses:content_create" module.id "file" %}">Файл</a>
-      </li>
+      <li><a href="{% url "courses:content_create" module.id "text" %}">Текст</a></li>
+      <li><a href="{% url "courses:content_create" module.id "image" %}">Изображение</a></li>
+      <li><a href="{% url "courses:content_create" module.id "video" %}">Видео</a></li>
+      <li><a href="{% url "courses:content_create" module.id "file" %}">Файл</a></li>
     </ul>
   </div>
 {% endwith %}
 {% endblock %}
 
-{% comment %} {% block include_js %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5sortable/0.13.3/html5sortable.min.js"></script>
+{% block include_js %}
+  <!-- Подключаем Sortable.js -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 {% endblock %}
 
 {% block domready %}
-  var options = {
-      method: 'POST',
-      mode: 'same-origin'
-  }
+const list = document.getElementById('modules');
 
-  const moduleOrderUrl = '{% url "module_order" %}';
+if (list) {
+  new Sortable(list, {
+    animation: 150,
+    onEnd: function (evt) {
+      const order = Array.from(list.children).map((el, index) => ({
+        id: el.dataset.id,
+        order: index
+      }));
 
-  sortable('#modules', {
-    forcePlaceholderSize: true,
-    placeholderClass: 'placeholder'
-  })[0].addEventListener('sortupdate', function(e) {
-
-    modulesOrder = {};
-    var modules = document.querySelectorAll('#modules li');
-    modules.forEach(function (module, index) {
-      // update module index
-      modulesOrder[module.dataset.id] = index;
-      // update index in HTML element
-      module.querySelector('.order').innerHTML = index + 1;
-    });
-
-    // add new order to the HTTP request options
-    options['body'] = JSON.stringify(modulesOrder);
-
-    // send HTTP request
-    fetch(moduleOrderUrl, options)
+      fetch("{% url 'courses:api:module_order' course_id=course.id %}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ order })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Ошибка при сохранении порядка модулей');
+        }
+        console.log('Порядок успешно обновлён');
+      })
+      .catch(error => console.error(error));
+    }
   });
+}
+{% endblock %}
 
-  const contentOrderUrl = '{% url "content_order" %}';
 
-  sortable('#module-contents', {
-    forcePlaceholderSize: true,
-    placeholderClass: 'placeholder'
-  })[0].addEventListener('sortupdate', function(e) {
-
-    contentOrder = {};
-    var contents = document.querySelectorAll('#module-contents div');
-    contents.forEach(function (content, index) {
-      // update content index
-      contentOrder[content.dataset.id] = index;
-    });
-
-    // add new order to the HTTP request options
-    options['body'] = JSON.stringify(contentOrder);
-
-    // send HTTP request
-    fetch(contentOrderUrl, options)
-  });
-
-{% endblock %} {% endcomment %}

@@ -42,15 +42,18 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Сторонние
+    "rest_framework",
     "mptt",
     "tailwind",
     "django_browser_reload",
+    "debug_toolbar",
     # Локальные приложения
     "apps.courses",
     "apps.theme",
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
