@@ -144,4 +144,5 @@ class ModuleContentListView(TemplateResponseMixin, View):
         module = get_object_or_404(
             Module, id=module_id, course__owner=request.user
         )
-        return self.render_to_response({"module": module})
+        course = module.course
+        return self.render_to_response({"module": module, "course": course})

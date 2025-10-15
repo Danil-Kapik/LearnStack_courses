@@ -26,12 +26,15 @@
       {% block content %}
       {% endblock %}
     </div>
+    <!-- Блок для подключения внешних скриптов -->
+    {% block include_js %}
+    {% endblock %}
     <script>
       document.addEventListener('DOMContentLoaded', (event) => {
         // DOM loaded
         {% block domready %}
         {% endblock %}
-      })
+      });
     </script>
   </body>
 </html>

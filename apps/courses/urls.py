@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 app_name = "courses"
@@ -45,4 +45,6 @@ urlpatterns = [
         views.ModuleContentListView.as_view(),
         name="content_list",
     ),
+    # Подключаем REST API
+    path("api/", include("apps.courses.api.urls", namespace="api")),
 ]
