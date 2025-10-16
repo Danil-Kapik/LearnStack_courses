@@ -5,11 +5,12 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
 from .fields import OrderField
+from .mixins.generate_slug import UniqueSlugMixin
 
 
-class Subject(MPTTModel):
+class Subject(UniqueSlugMixin, MPTTModel):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
     parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -31,7 +32,7 @@ class Subject(MPTTModel):
         return f"{'— ' * self.level}{self.title}"
 
 
-class Course(models.Model):
+class Course(UniqueSlugMixin, models.Model):
     owner = models.ForeignKey(
         User, related_name="courses_created", on_delete=models.CASCADE
     )
@@ -39,7 +40,7 @@ class Course(models.Model):
         Subject, related_name="courses", on_delete=models.CASCADE
     )
     title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
     overview = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
