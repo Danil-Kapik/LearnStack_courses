@@ -5,7 +5,7 @@ from django.db import transaction
 
 class UniqueSlugMixin(models.Model):
     slug_field_name = "slug"
-    slug_from_field = "name"
+    slug_from_field = "title"
 
     class Meta:
         abstract = True
