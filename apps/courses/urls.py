@@ -4,7 +4,7 @@ from . import views
 app_name = "courses"
 
 urlpatterns = [
-    path("list/", views.ManageCourseListView.as_view(), name="list"),
+    path("list/", views.ManageCourseListView.as_view(), name="manage"),
     path(
         "create/",
         views.CourseCreateView.as_view(),
@@ -45,6 +45,13 @@ urlpatterns = [
         views.ModuleContentListView.as_view(),
         name="content_list",
     ),
+    path("", views.CourseListView.as_view(), name="list"),
+    path(
+        "subject/<slug:subject>/",
+        views.CourseListView.as_view(),
+        name="list_subject",
+    ),
+    path("<slug:slug>/", views.CourseDetailView.as_view(), name="detail"),
     # Подключаем REST API
     path("api/", include("apps.courses.api.urls", namespace="api")),
 ]

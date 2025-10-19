@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # Локальные приложения
     "apps.courses",
     "apps.theme",
+    "apps.students",
 ]
 
 MIDDLEWARE = [
@@ -163,5 +164,5 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-LOGIN_REDIRECT_URL = "courses:list"
+LOGIN_REDIRECT_URL = "students:course_list"
 LOGIN_URL = "login"
