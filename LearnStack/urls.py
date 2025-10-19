@@ -14,6 +14,10 @@ urlpatterns = [
         "courses/",
         include(("apps.courses.urls", "courses"), namespace="courses"),
     ),
+    path(
+        "students/",
+        include(("apps.students.urls", "students"), namespace="students"),
+    ),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
 

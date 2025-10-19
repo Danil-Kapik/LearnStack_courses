@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ object.title }}
+{% endblock %}
+
+{% block content %}
+  {% with subject=object.subject %}
+    <h1>
+      {{ object.title }}
+    </h1>
+    <div class="module">
+      <h2>Обзор курса</h2>
+      <p>
+        <a href="{% url "courses:list_subject" subject.slug %}">
+        {{ subject.title }}</a>.
+        модулей - {{ object.modules.count }}.
+        Преподаватель: {{ object.owner.get_full_name|default:course.owner.username }}
+      </p>
+      {% if request.user.is_authenticated %}
+        <form action="{% url "students:enroll_course" %}" method="post">
+          {{ enroll_form }}
+          {% csrf_token %}
+          <input type="submit" value="Зачисление на курс">
+        </form>
+      {% else %}
+        <a href="{% url "students:registration" %}" class="button">
+          Зарегестрируйтесь для зачисления
+        </a>
+      {% endif %}
+    </div>
+  {% endwith %}
+{% endblock %}

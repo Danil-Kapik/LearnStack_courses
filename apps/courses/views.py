@@ -3,14 +3,17 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     PermissionRequiredMixin,
 )
+from django.db.models import Count
 from django.apps import apps
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.base import TemplateResponseMixin, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
-from .models import Course, Module, Content
+from django.views.generic.detail import DetailView
+from .models import Subject, Course, Module, Content
 from .forms import ModuleFormSet
+from apps.students.forms import CourseEnrollForm
 
 
 class OwnerMixin:
@@ -146,3 +149,30 @@ class ModuleContentListView(TemplateResponseMixin, View):
         )
         course = module.course
         return self.render_to_response({"module": module, "course": course})
+
+
+class CourseListView(TemplateResponseMixin, View):
+    model = Course
+    template_name = "courses/course/list.html"
+
+    def get(self, request, subject=None):
+        subjects = Subject.objects.annotate(total_courses=Count("courses"))
+        courses = Course.objects.annotate(total_modules=Count("modules"))
+        if subject:
+            subject = get_object_or_404(Subject, slug=subject)
+            courses = courses.filter(subject=subject)
+        return self.render_to_response(
+            {"subjects": subjects, "subject": subject, "courses": courses}
+        )
+
+
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = "courses/course/detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["enroll_form"] = CourseEnrollForm(
+            initial={"course": self.object}
+        )
+        return context
