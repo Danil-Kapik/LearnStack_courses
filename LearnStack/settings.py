@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "tailwind",
     "django_browser_reload",
     "debug_toolbar",
+    "embed_video",
     # Локальные приложения
     "apps.courses",
     "apps.theme",
@@ -164,5 +165,5 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-LOGIN_REDIRECT_URL = "students:course_list"
+LOGIN_REDIRECT_URL = "courses:list"
 LOGIN_URL = "login"

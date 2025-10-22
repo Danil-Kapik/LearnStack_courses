@@ -134,6 +134,7 @@ dependencies = [
     { name = "django" },
     { name = "django-browser-reload" },
     { name = "django-debug-toolbar" },
+    { name = "django-embed-video" },
     { name = "django-mptt" },
     { name = "django-tailwind" },
     { name = "djangorestframework" },
@@ -149,6 +150,7 @@ requires-dist = [
     { name = "django", specifier = ">=5.2.4" },
     { name = "django-browser-reload", specifier = ">=1.18.0" },
     { name = "django-debug-toolbar", specifier = ">=6.0.0" },
+    { name = "django-embed-video", specifier = ">=1.4.10" },
     { name = "django-mptt", specifier = ">=0.17.0" },
     { name = "django-tailwind", specifier = ">=4.2.0" },
     { name = "djangorestframework", specifier = ">=3.16.1" },
@@ -196,6 +198,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c5/d5/5fc90234532088aeec5faa48d5b09951cc7eab6626030ed427d3bd8cd9bc/django_debug_toolbar-6.0.0.tar.gz", hash = "sha256:6eb9fa6f4a5884bf04004700ffb5a44043f1fff38784447fc52c1633448c8c14", size = 305331, upload-time = "2025-07-25T13:11:48.68Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/05/b5/4724a8c18fcc5b09dca7b7a0e70c34208317bb110075ad12484d6588ae91/django_debug_toolbar-6.0.0-py3-none-any.whl", hash = "sha256:0cf2cac5c307b77d6e143c914e5c6592df53ffe34642d93929e5ef095ae56841", size = 266967, upload-time = "2025-07-25T13:11:47.265Z" },
+]
+
+[[package]]
+name = "django-embed-video"
+version = "1.4.10"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b4/bd/b11484483a4d5820f379cc811f0dd83a1ea4c7f384e14c9ea72524951494/django_embed_video-1.4.10.tar.gz", hash = "sha256:45f9fb4a8c64a937ef1801237738572103f1e46d9056df637b4063db13f4ca36", size = 42623, upload-time = "2024-05-07T16:26:01.916Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3c/70/846a9761410c96477441bbedef1702ad81a8d00a1de7c8f9db36a5932af8/django_embed_video-1.4.10-py3-none-any.whl", hash = "sha256:ca74bb52215959c63ca578f1c1158e2c7f99b2f2c8f6fbe87ad89afcd226ad06", size = 25192, upload-time = "2024-05-07T16:25:56.427Z" },
 ]
 
 [[package]]
