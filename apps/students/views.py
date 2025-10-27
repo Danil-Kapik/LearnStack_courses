@@ -1,7 +1,9 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -10,17 +12,29 @@ from .forms import CourseEnrollForm
 from apps.courses.models import Course
 
 
+class RoleBasedLoginView(LoginView):
+    def get_success_url(self):
+        if self.request.user.is_staff:
+            return reverse_lazy("courses:manage")
+        return reverse_lazy("students:course_list")
+
+
 class StudentRegistrationView(CreateView):
     form_class = UserCreationForm
     template_name = "students/student/registration_form.html"
-    success_url = reverse_lazy("students:student_course_list")
 
     def form_valid(self, form):
-        result = super().form_valid(form)
-        cd = form.cleaned_data
-        user = authenticate(username=cd["username"], password=cd["password1"])
+        user = form.save(commit=False)
+        user.is_staff = False
+        user.is_superuser = False
+        user.save()
         login(self.request, user)
-        return result
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        if self.request.user.is_staff:
+            return reverse_lazy("courses:manage")
+        return reverse_lazy("students:course_list")
 
 
 class StudentEnrollCourseView(LoginRequiredMixin, FormView):
