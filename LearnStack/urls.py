@@ -8,7 +8,11 @@ from apps.students.views import RoleBasedLoginView
 
 urlpatterns = [
     path("accounts/login/", RoleBasedLoginView.as_view(), name="login"),
-    path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path(
+        "accounts/logout/",
+        auth_views.LogoutView.as_view(next_page="courses:list"),
+        name="logout",
+    ),
     path("admin/", admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
     path(
