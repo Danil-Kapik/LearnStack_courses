@@ -8,19 +8,28 @@
   </head>
   <body>
     <div id="header">
-      <a href="/" class="logo">LearnStack</a>
-      <ul class="menu">
-        {% if request.user.is_authenticated %}
-          <li>
-            <form action="{% url "logout" %}" method="post">
-              <button type="submit">Выход</button>
-              {% csrf_token %}
+      <nav>
+        <a href="{% url 'courses:list' %}" class="logo">LearnStack</a>
+        <ul class="menu">
+          {% if request.user.is_authenticated %}
+            <li>Привет, {{ user.get_full_name|default:user.username }}!</li>
+            <li>
+              {% if user.is_staff %}
+                <a href="{% url 'courses:manage' %}">Мои курсы</a>
+              {% else %}
+                <a href="{% url 'students:course_list' %}">Мои курсы</a>
+            </li> 
+              {% endif %}
+            <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Выход</button>
             </form>
-          </li>
-        {% else %}
-          <li><a href="{% url "login" %}">Вход</a></li>
-        {% endif %}
-      </ul>
+          {% else %}
+              <li><a href="{% url 'login' %}">Войти</a></li>
+              <li><a href="{% url 'students:registration' %}">Регистрация</a></li>
+          {% endif %}
+        </ul>
+      </nav>
     </div>
     <div id="content">
       {% block content %}
