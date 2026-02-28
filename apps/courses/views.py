@@ -117,7 +117,9 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
         return self.render_to_response({"form": form, "object": self.obj})
 
     def post(self, request, module_id, model_name, id=None):
-        form = self.get_form(self.model, request.POST, instance=self.obj)
+        form = self.get_form(
+            self.model, request.POST, request.FILES, instance=self.obj
+        )
         if form.is_valid():
             obj = form.save(commit=False)
             obj.owner = request.user
